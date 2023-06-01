@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 public class Repository<T> where T : class
 {
@@ -22,11 +24,11 @@ public class Repository<T> where T : class
 
         string query = $"INSERT INTO {tableName} ({columns}) VALUES ({values});";
 
-        using (var connection = new SqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
                 command.ExecuteNonQuery();
             }
@@ -43,11 +45,11 @@ public class Repository<T> where T : class
 
         string query = $"UPDATE {tableName} SET {updateColumns} WHERE {keyColumn} = {keyColumnValue};";
 
-        using (var connection = new SqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
                 command.ExecuteNonQuery();
             }
@@ -61,11 +63,11 @@ public class Repository<T> where T : class
 
         string query = $"DELETE FROM {tableName} WHERE {keyColumn} = {id};";
 
-        using (var connection = new SqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
                 command.ExecuteNonQuery();
             }
@@ -79,11 +81,11 @@ public class Repository<T> where T : class
 
         string query = $"SELECT * FROM {tableName} WHERE {keyColumn} = {id};";
 
-        using (var connection = new SqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -105,11 +107,11 @@ public class Repository<T> where T : class
 
         string query = $"SELECT * FROM {tableName};";
 
-        using (var connection = new SqlConnection(connectionString))
+        using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
-            using (var command = new SqlCommand(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -163,7 +165,7 @@ public class Repository<T> where T : class
         return property?.GetValue(entity)?.ToString();
     }
 
-    private T CreateEntityFromReader(SqlDataReader reader)
+    private T CreateEntityFromReader(MySqlDataReader reader)
     {
         T entity = Activator.CreateInstance<T>();
 
