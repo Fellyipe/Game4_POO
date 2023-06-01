@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gamificacao3.Interfaces
+namespace Gamificacao4.Interfaces
 {
-    public interface IItemPedidoRepository
+    public interface IItemPedidoRepository : IRepository<ItemPedido>
     {
         ItemPedido? GetById(int id);
         void Create(ItemPedido itemPedido);

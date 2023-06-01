@@ -1,9 +1,10 @@
-using Gamificacao3;
-using Gamificacao3.Interfaces;
+using Gamificacao4;
+using Gamificacao4.Interfaces;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-public class ProdutoRepository : IProdutoRepository
+
+public class ProdutoRepository : Repository<Produto>, ProdutoRepository
 {
     private readonly string connectionString;
 

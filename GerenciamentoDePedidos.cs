@@ -1,7 +1,7 @@
-using Gamificacao3;
-using Gamificacao3.Interfaces;
+using Gamificacao4;
+using Gamificacao4.Interfaces;
     
-namespace Gamificacao3
+namespace Gamificacao4
 {
     public class GerenciamentoDePedidos
     {
@@ -25,7 +25,7 @@ namespace Gamificacao3
         {
             var pedido = pedidoRepository.GetById(pedidoId);
             Console.WriteLine("pedidoClienteNome: " + pedido?.Cliente?.Nome + "; produtoId: " + produtoId);
-            var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game3;user=root;password=;");
+            var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game4;user=root;password=;");
             var produto = produtoRepository.GetById(produtoId);
 
             if (pedido != null && produto != null)
@@ -72,7 +72,7 @@ namespace Gamificacao3
         public decimal CalcularValorTotalPedido(int pedidoId)
         {
             var pedido = pedidoRepository.GetById(pedidoId);
-            var itemPedidoRepository = new ItemPedidoRepository("server=localhost;database=poo_game3;user=root;password=;");
+            var itemPedidoRepository = new ItemPedidoRepository("server=localhost;database=poo_game4;user=root;password=;");
             var itensPedido = itemPedidoRepository.GetByPedidoId(pedidoId);
             if (pedido != null)
             {

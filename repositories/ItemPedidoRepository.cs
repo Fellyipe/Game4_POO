@@ -1,9 +1,10 @@
-using Gamificacao3;
-using Gamificacao3.Interfaces;
+using Gamificacao4;
+using Gamificacao4.Interfaces;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-public class ItemPedidoRepository : IItemPedidoRepository
+
+public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepository
 {
     private readonly string connectionString;
 
@@ -120,9 +121,9 @@ public class ItemPedidoRepository : IItemPedidoRepository
                         var quantidade = reader.GetInt32(2);
                         var precoUnitario = reader.GetDecimal(3);
 
-                        var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game3;user=root;password=;");
+                        var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game4;user=root;password=;");
                         var produto = produtoRepository.GetById(produtoId);
-                        var pedidoRepository = new PedidoRepository("server=localhost;database=poo_game3;user=root;password=;");
+                        var pedidoRepository = new PedidoRepository("server=localhost;database=poo_game4;user=root;password=;");
                         var pedido = pedidoRepository.GetById(pedidoId);
 
                         var itemPedido = new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);

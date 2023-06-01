@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gamificacao3.Interfaces
+namespace Gamificacao4.Interfaces
 {
-    public interface IProdutoRepository
+    public interface IProdutoRepository : IRepository<Produto>
     {
         void Create(Produto produto);
         void Update(Produto produto);

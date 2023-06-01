@@ -1,4 +1,4 @@
-CREATE DATABASE poo_game3;
+CREATE DATABASE poo_game4;
 
 USE nome_do_banco_de_dados;
 
