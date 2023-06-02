@@ -18,11 +18,11 @@ public class Repository<T> where T : class
 
     public void Create(T entity)
     {
-        string tableName = GetTableName();
+        string tableName = typeof(T).Name.ToLower();
         string columns = GetColumnNames();
         string values = GetColumnValues(entity);
 
-        string query = $"INSERT INTO {tableName} ({columns}) VALUES ({values});";
+        string query = $"INSERT INTO tb_{tableName} ({columns}) VALUES ({values});";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -37,13 +37,13 @@ public class Repository<T> where T : class
 
     public void Update(T entity)
     {
-        string tableName = GetTableName();
+        string tableName = typeof(T).Name.ToLower();
         string keyColumn = GetPrimaryKeyColumnName();
         string keyColumnValue = GetPrimaryKeyColumnValue(entity);
 
         string updateColumns = GetUpdateColumnNamesAndValues(entity);
 
-        string query = $"UPDATE {tableName} SET {updateColumns} WHERE {keyColumn} = {keyColumnValue};";
+        string query = $"UPDATE tb_{tableName} SET {updateColumns} WHERE Id = {entity.Id};";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -58,10 +58,9 @@ public class Repository<T> where T : class
 
     public void Delete(int id)
     {
-        string tableName = GetTableName();
-        string keyColumn = GetPrimaryKeyColumnName();
+        string tableName = typeof(T).Name.ToLower();
 
-        string query = $"DELETE FROM {tableName} WHERE {keyColumn} = {id};";
+        string query = $"DELETE FROM tb_{tableName} WHERE Id = {id};";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -76,10 +75,9 @@ public class Repository<T> where T : class
 
     public T GetById(int id)
     {
-        string tableName = GetTableName();
-        string keyColumn = GetPrimaryKeyColumnName();
+        string tableName = typeof(T).Name.ToLower();
 
-        string query = $"SELECT * FROM {tableName} WHERE {keyColumn} = {id};";
+        string query = $"SELECT * FROM tb_{tableName} WHERE Id = {id};";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -97,15 +95,14 @@ public class Repository<T> where T : class
                 }
             }
         }
-
         return null;
     }
 
     public IEnumerable<T> GetAll()
     {
-        string tableName = GetTableName();
+        string tableName = typeof(T).Name.ToLower();
 
-        string query = $"SELECT * FROM {tableName};";
+        string query = $"SELECT * FROM tb_{tableName};";
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -129,17 +126,17 @@ public class Repository<T> where T : class
         }
     }
 
-    private string GetTableName()
-    {
-        var attribute = typeof(T).GetCustomAttribute<TableNameAttribute>();
-        return attribute?.Name ?? typeof(T).Name;
-    }
+    // private string GetTableName()
+    // {
+    //     var attribute = typeof(T).GetCustomAttribute<TableNameAttribute>();
+    //     return attribute?.Name ?? typeof(T).Name;
+    // }
 
-    private string GetPrimaryKeyColumnName()
-    {
-        var property = typeof(T).GetProperties().FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() != null);
-        return property?.Name;
-    }
+    // private string GetPrimaryKeyColumnName()
+    // {
+    //     var property = typeof(T).GetProperties().FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() != null);
+    //     return property?.Name;
+    // }
 
     private string GetColumnNames()
     {
@@ -159,11 +156,11 @@ public class Repository<T> where T : class
         return string.Join(", ", properties.Select(p => $"{p.Name} = '{p.GetValue(entity)}'"));
     }
 
-    private string GetPrimaryKeyColumnValue(T entity)
-    {
-        var property = typeof(T).GetProperties().FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() != null);
-        return property?.GetValue(entity)?.ToString();
-    }
+    // private string GetPrimaryKeyColumnValue(T entity)
+    // {
+    //     var property = typeof(T).GetProperties().FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() != null);
+    //     return property?.GetValue(entity)?.ToString();
+    // }
 
     private T CreateEntityFromReader(MySqlDataReader reader)
     {
