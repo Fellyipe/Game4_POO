@@ -4,18 +4,18 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 
 
-public class ProdutoRepository : Repository<Produto>, ProdutoRepository
+public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 {
-    private readonly string connectionString;
+    private readonly string _connectionString;
 
-    public ProdutoRepository(string connectionString)
+    public ProdutoRepository(string connectionString) : base(connectionString)
     {
-        this.connectionString = connectionString;
+        _connectionString = connectionString;
     }
 
     public void Create(Produto produto)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "INSERT INTO tb_produto (Nome, Descricao, Preco, QuantidadeEmEstoque) " +
@@ -35,7 +35,7 @@ public class ProdutoRepository : Repository<Produto>, ProdutoRepository
 
     public void Update(Produto produto)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "UPDATE tb_produto SET Nome = @Nome, Descricao = @Descricao, " +
@@ -56,7 +56,7 @@ public class ProdutoRepository : Repository<Produto>, ProdutoRepository
 
     public void Delete(int id)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "DELETE FROM tb_produto WHERE Id = @Id";
@@ -71,7 +71,7 @@ public class ProdutoRepository : Repository<Produto>, ProdutoRepository
 
     public Produto? GetById(int id)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_produto WHERE Id = @Id";
@@ -104,7 +104,7 @@ public class ProdutoRepository : Repository<Produto>, ProdutoRepository
     {
         var produtos = new List<Produto>();
 
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_produto";

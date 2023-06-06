@@ -8,10 +8,10 @@ namespace Gamificacao4.Interfaces
 {
     public interface IRepository<T>
     {
-        T GetById<T>(int id);
+        T GetById(int id);
         void Create(T entidade);
         void Update(T entidade);
         void Delete(int id);
-        List<T> ListAll();
+        IEnumerable<T> ListAll();
     }
 }

@@ -6,16 +6,16 @@ using MySql.Data.MySqlClient;
 
 public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepository
 {
-    private readonly string connectionString;
+    private readonly string _connectionString;
 
-    public ItemPedidoRepository(string connectionString)
+    public ItemPedidoRepository(string connectionString) : base(connectionString)
     {
-        this.connectionString = connectionString;
+        _connectionString = connectionString;
     }
 
     public ItemPedido? GetById(int id)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_itempedido WHERE Id = @Id";
@@ -32,10 +32,10 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
                         var precoUnitario = reader.GetDecimal(3);
                         var pedidoId = reader.GetInt32(4);
 
-                        var produtoRepository = new ProdutoRepository(connectionString);
+                        var produtoRepository = new ProdutoRepository(_connectionString);
                         var produto = produtoRepository.GetById(produtoId);
 
-                        var pedidoRepository = new PedidoRepository(connectionString);
+                        var pedidoRepository = new PedidoRepository(_connectionString);
                         var pedido = pedidoRepository.GetById(pedidoId);
 
                         return new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);
@@ -48,7 +48,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
 
     public void Create(ItemPedido itemPedido)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "INSERT INTO tb_itempedido (tb_produtoId, Quantidade, PrecoUnitario, tb_pedidoId) VALUES (@tb_produtoId, @Quantidade, @PrecoUnitario, @tb_pedidoId); SELECT LAST_INSERT_ID();";
@@ -69,7 +69,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
 
     public void Update(ItemPedido itemPedido)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "UPDATE tb_itempedido SET tb_produtoId = @tb_produtoId, Quantidade = @Quantidade, PrecoUnitario = @PrecoUnitario, tb_pedidoId = @tb_pedidoId WHERE Id = @Id";
@@ -88,7 +88,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
 
     public void Delete(int id)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "DELETE FROM tb_itempedido WHERE Id = @Id";
@@ -104,7 +104,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
     {
         var itensPedido = new List<ItemPedido>();
 
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_itempedido WHERE tb_pedidoId = @tb_pedidoId";
@@ -141,7 +141,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
     {
         var itemPedidos = new List<ItemPedido>();
 
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_itempedido";
@@ -157,10 +157,10 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
                         var precoUnitario = reader.GetDecimal(3);
                         var pedidoId = reader.GetInt32(4);
 
-                        var produtoRepository = new ProdutoRepository(connectionString);
+                        var produtoRepository = new ProdutoRepository(_connectionString);
                         var produto = produtoRepository.GetById(produtoId);
 
-                        var pedidoRepository = new PedidoRepository(connectionString);
+                        var pedidoRepository = new PedidoRepository(_connectionString);
                         var pedido = pedidoRepository.GetById(pedidoId);
 
                         var itemPedido = new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);

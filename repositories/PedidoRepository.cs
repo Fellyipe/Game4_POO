@@ -4,18 +4,18 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 
 
-public class PedidoRepository : Repository<Pedido>, PedidoRepository
+public class PedidoRepository : Repository<Pedido>, IPedidoRepository
 {
-    private readonly string connectionString;
+    private readonly string _connectionString;
 
-    public PedidoRepository(string connectionString)
+    public PedidoRepository(string connectionString) : base(connectionString)
     {
-        this.connectionString = connectionString;
+        _connectionString = connectionString;
     }
 
     public Pedido? GetById(int id)
     {
-        var connection = new MySqlConnection(connectionString);
+        var connection = new MySqlConnection(_connectionString);
         
         connection.Open();
         var query = "SELECT * FROM tb_pedido WHERE Id = @Id";
@@ -40,7 +40,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
 
     public void Create(Pedido pedido)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "INSERT INTO tb_pedido (Data, Cliente, Status) " +
@@ -60,7 +60,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
 
     public void Update(Pedido pedido)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "UPDATE tb_pedido SET Data = @Data, Cliente = @Cliente, Status = @Status WHERE Id = @Id";
@@ -78,7 +78,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
 
     public void Delete(int id)
     {
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "DELETE FROM tb_pedido WHERE Id = @Id";
@@ -93,7 +93,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
     public List<Pedido> GetByCliente(Cliente cliente)
     {
         var pedidos = new List<Pedido>();
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_pedido WHERE Cliente = @Cliente";
@@ -119,7 +119,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
     public List<Pedido> GetByStatus(string status)
     {
         var pedidos = new List<Pedido>();
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_pedido WHERE Status = @Status";
@@ -145,7 +145,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
     public List<Pedido> GetByData(DateTime data)
     {
         var pedidos = new List<Pedido>();
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_pedido WHERE Data = @Data";
@@ -172,7 +172,7 @@ public class PedidoRepository : Repository<Pedido>, PedidoRepository
     {
         var pedidos = new List<Pedido>();
 
-        using (var connection = new MySqlConnection(connectionString))
+        using (var connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             var query = "SELECT * FROM tb_pedido";
