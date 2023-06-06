@@ -18,6 +18,7 @@ namespace Gamificacao4
         {
             var pedido = new Pedido(0, Data, cliente, status);
             pedidoRepository.Create(pedido);
+            Console.WriteLine("Id do pedido: " + pedido.Id);
             return pedido;
         }
 

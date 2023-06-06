@@ -69,6 +69,7 @@ namespace Gamificacao4
                     Console.WriteLine("5. Listar pedidos por cliente, status ou data");
                     Console.WriteLine("6. Calcular o valor total de um pedido");
                     Console.WriteLine("7. Acesso administrador (CRUD de produtos, pedidos e item pedidos)");
+                    Console.WriteLine("8. Listar todos os produtos");
                     Console.WriteLine("0. Sair");
                     Console.WriteLine("==================");
                     Console.Write("Escolha uma opção: ");
@@ -98,6 +99,11 @@ namespace Gamificacao4
                             break;
                         case "7":
                             menu.AcessoAdministrador(gerenciamentoDePedidos, produtoRepository, pedidoRepository, itemPedidoRepository);
+                            break;
+                        case "8":
+                            menu.ListarTodosProdutos(produtoRepository);
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
                             break;
                         case "0":
                             sair = true;
