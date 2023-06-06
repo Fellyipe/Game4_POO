@@ -104,6 +104,8 @@ namespace Gamificacao4
                             break;
                         default:
                             Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                            Console.WriteLine("Aperte qualquer tecla para continuar");
+                            Console.ReadKey();
                             break;
                     }
                     Console.WriteLine();

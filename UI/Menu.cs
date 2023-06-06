@@ -24,6 +24,8 @@ namespace Gamificacao4
             gerenciamentoDePedidos.CriarPedido(data, cliente, status);
 
             Console.WriteLine("Pedido criado com sucesso!");
+            Console.WriteLine("Aperte qualquer tecla para continuar");
+            Console.ReadKey();
         }
 
         public void AdicionarItensAoPedido(GerenciamentoDePedidos gerenciamentoDePedidos)
@@ -40,7 +42,8 @@ namespace Gamificacao4
 
             gerenciamentoDePedidos.AdicionarItemPedido(pedidoId, produtoId, quantidade, produto.Preco);
             Console.WriteLine("Item adicionado ao pedido com sucesso!");
-
+            Console.WriteLine("Aperte qualquer tecla para continuar");
+            Console.ReadKey();
         }
 
         public void AtualizarStatusPedido(GerenciamentoDePedidos gerenciamentoDePedidos)
@@ -54,6 +57,8 @@ namespace Gamificacao4
             gerenciamentoDePedidos.AtualizarStatusPedido(pedidoId, novoStatus);
 
             Console.WriteLine("Status do pedido atualizado com sucesso!");
+            Console.WriteLine("Aperte qualquer tecla para continuar");
+            Console.ReadKey();
         }
 
         public void RemoverPedido(GerenciamentoDePedidos gerenciamentoDePedidos)
@@ -65,6 +70,8 @@ namespace Gamificacao4
             gerenciamentoDePedidos.RemoverPedido(pedidoId);
 
             Console.WriteLine("Pedido removido com sucesso!");
+            Console.WriteLine("Aperte qualquer tecla para continuar");
+            Console.ReadKey();
         }
 
         public void ListarPedidos(GerenciamentoDePedidos gerenciamentoDePedidos)
@@ -90,6 +97,8 @@ namespace Gamificacao4
                     {
                         Console.WriteLine("Cliente: " + pedido?.Cliente?.Nome + "; Data: " + pedido?.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido?.Status);
                     }
+                    Console.WriteLine("Aperte qualquer tecla para continuar");
+                    Console.ReadKey();
                     break;
                 case "2":
                     Console.Write("Status: ");
@@ -100,6 +109,8 @@ namespace Gamificacao4
                     {
                         Console.WriteLine("Cliente: " + pedido.Cliente.Nome + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
                     }
+                    Console.WriteLine("Aperte qualquer tecla para continuar");
+                    Console.ReadKey();
                     break;
                 case "3":
                     Console.Write("Digite a data formato (DD/MM/AAAA): ");
@@ -110,11 +121,15 @@ namespace Gamificacao4
                     {
                         Console.WriteLine("Cliente: " + pedido.Cliente.Nome + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
                     }
+                    Console.WriteLine("Aperte qualquer tecla para continuar");
+                    Console.ReadKey();
                     break;
                 case "4":
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                    Console.WriteLine("Aperte qualquer tecla para continuar");
+                    Console.ReadKey();
                     break;
             }
         }
@@ -128,6 +143,8 @@ namespace Gamificacao4
             decimal valorTotal = gerenciamentoDePedidos.CalcularValorTotalPedido(pedidoId);
 
             Console.WriteLine($"Valor total do pedido: R${valorTotal:F2}");
+            Console.WriteLine("Aperte qualquer tecla para continuar");
+            Console.ReadKey();
         }
 
         public void AcessoAdministrador(GerenciamentoDePedidos gerenciamentoDePedidos, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository)
@@ -163,54 +180,86 @@ namespace Gamificacao4
                 {
                     case "1":
                         CriarNovoProduto(produtoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "2":
                         LerProduto(produtoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "3":
                         AtualizarProduto(produtoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "4":
                         RemoverProduto(produtoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "5":
                         ListarTodosProdutos(produtoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "6":
                         CriarNovoPedido(pedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "7":
                         LerPedido(pedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "8":
                         AtualizarPedido(pedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "9":
                         RemoverPedido(pedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "10":
                         ListarTodosPedidos(pedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "11":
                         CriarNovoItemPedido(itemPedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "12":
                         LerItemPedido(itemPedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "13":
                         AtualizarItemPedido(itemPedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "14":
                         RemoverItemPedido(itemPedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "15":
                         ListarTodosItemPedidos(itemPedidoRepository);
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                     case "0":
                         sair = true;
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
+                        Console.WriteLine("Aperte qualquer tecla para continuar");
+                        Console.ReadKey();
                         break;
                 }
 

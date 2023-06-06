@@ -1,6 +1,6 @@
 CREATE DATABASE poo_game4;
 
-USE nome_do_banco_de_dados;
+USE poo_game4;
 
 CREATE TABLE tb_produto (
     Id INT PRIMARY KEY AUTO_INCREMENT,
