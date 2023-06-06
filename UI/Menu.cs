@@ -17,7 +17,7 @@ namespace Gamificacao4
             Console.Write("Data do pedido: ");
             DateTime data = DateTime.Parse(Console.ReadLine());
             Console.Write("Cliente: ");
-            var cliente = new Cliente(Console.ReadLine());
+            var cliente = Console.ReadLine();
             Console.Write("Status do pedido (Pendente, Pago, Enviado, Entregue): ");
             string ?status = Console.ReadLine();
 
@@ -90,12 +90,12 @@ namespace Gamificacao4
             {
                 case "1":
                     Console.Write("Cliente: ");
-                    var cliente = new Cliente(Console.ReadLine());
+                    var cliente = Console.ReadLine();
                     var pedidosPorCliente = gerenciamentoDePedidos.ListarPedidosPorCliente(cliente);
                     Console.WriteLine("Pedidos encontrados:");
                     foreach (var pedido in pedidosPorCliente)
                     {
-                        Console.WriteLine("Cliente: " + pedido?.Cliente?.Nome + "; Data: " + pedido?.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido?.Status);
+                        Console.WriteLine("Cliente: " + pedido?.Cliente + "; Data: " + pedido?.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido?.Status);
                     }
                     Console.WriteLine("Aperte qualquer tecla para continuar");
                     Console.ReadKey();
@@ -107,7 +107,7 @@ namespace Gamificacao4
                     Console.WriteLine("Pedidos encontrados:");
                     foreach (var pedido in pedidosPorStatus)
                     {
-                        Console.WriteLine("Cliente: " + pedido.Cliente.Nome + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
+                        Console.WriteLine("Cliente: " + pedido.Cliente + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
                     }
                     Console.WriteLine("Aperte qualquer tecla para continuar");
                     Console.ReadKey();
@@ -119,7 +119,7 @@ namespace Gamificacao4
                     Console.WriteLine("Pedidos encontrados:");
                     foreach (var pedido in pedidosPorData)
                     {
-                        Console.WriteLine("Cliente: " + pedido.Cliente.Nome + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
+                        Console.WriteLine("Cliente: " + pedido.Cliente + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Status: " + pedido.Status);
                     }
                     Console.WriteLine("Aperte qualquer tecla para continuar");
                     Console.ReadKey();
@@ -279,7 +279,7 @@ namespace Gamificacao4
             Console.Write("Quantidade em estoque: ");
             int quantidade = int.Parse(Console.ReadLine());
 
-            Produto produto = new Produto(0, nome, descricao, preco, quantidade);
+            Produto produto = new Produto{Id = 0, Nome = nome, Descricao = descricao, Preco = preco, QuantidadeEmEstoque = quantidade};
             produtoRepository.Create(produto);
 
             Console.WriteLine("Produto criado com sucesso!");
@@ -369,11 +369,11 @@ namespace Gamificacao4
             Console.Write("Data do pedido: ");
             DateTime data = DateTime.Parse(Console.ReadLine());
             Console.Write("Cliente: ");
-            var cliente = new Cliente(Console.ReadLine());
+            var cliente = Console.ReadLine();
             Console.Write("Status do pedido: ");
             string ?status = Console.ReadLine();
 
-            Pedido pedido = new Pedido(0, data, cliente, status);
+            Pedido pedido = new Pedido{Id = 0, Data = data, Cliente = cliente, Status = status};
             pedidoRepository.Create(pedido);
 
             Console.WriteLine("Pedido criado com sucesso!");
@@ -388,7 +388,7 @@ namespace Gamificacao4
 
             if (pedido != null)
             {
-                Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Cliente: " + pedido?.Cliente?.Nome + "; Status: " + pedido?.Status);
+                Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Cliente: " + pedido?.Cliente + "; Status: " + pedido?.Status);
             }
             else
             {
@@ -408,7 +408,7 @@ namespace Gamificacao4
                 Console.Write("Nova data do pedido: ");
                 DateTime data = DateTime.Parse(Console.ReadLine());
                 Console.Write("Novo cliente do pedido: ");
-                var cliente = new Cliente(Console.ReadLine());
+                var cliente = Console.ReadLine();
                 Console.Write("Novo status do pedido: ");
                 string ?status = Console.ReadLine();
 
@@ -446,7 +446,7 @@ namespace Gamificacao4
             {
                 foreach (var pedido in pedidos)
                 {
-                    Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Cliente: " + pedido.Cliente.Nome + "; Status: " + pedido.Status);
+                    Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Cliente: " + pedido.Cliente + "; Status: " + pedido.Status);
                 }
             }
             else
@@ -470,7 +470,7 @@ namespace Gamificacao4
             var pedido = pedidoRepository.GetById(pedidoId);
             var produto = produtoRepository.GetById(produtoId);
             
-            ItemPedido itemPedido = new ItemPedido(0, produto, quantidade, produto.Preco, pedido);
+            ItemPedido itemPedido = new ItemPedido{Id = 0, Produto = produto, Quantidade = quantidade, PrecoUnitario = produto.Preco, Pedido = pedido};
             itemPedidoRepository.Create(itemPedido);
 
             Console.WriteLine("Item pedido criado com sucesso!");

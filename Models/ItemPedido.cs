@@ -34,13 +34,13 @@ namespace Gamificacao4
             set { _pedido = value; }
         }
 
-        public ItemPedido(int id, Produto? produto, int quantidade, decimal precoUnitario, Pedido? pedido)
+        /*public ItemPedido(int id, Produto? produto, int quantidade, decimal precoUnitario, Pedido? pedido)
         {
             _id = id;
             _produto = produto;
             _quantidade = quantidade;
             _precoUnitario = precoUnitario;
             _pedido = pedido;
-        }
+        }*/
     }
 }

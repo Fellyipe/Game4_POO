@@ -54,6 +54,8 @@ namespace Gamificacao4
                 var pedidoRepository = new PedidoRepository(connectionString);
                 var itemPedidoRepository = new ItemPedidoRepository(connectionString);
                 var produtoRepository = new ProdutoRepository(connectionString);
+                var repositoryPedido = new Repository<Pedido>(connectionString);
+                var repositoryItemPedido = new Repository<ItemPedido>(connectionString);
                 var gerenciamentoDePedidos = new GerenciamentoDePedidos(pedidoRepository, itemPedidoRepository);
                 var menu = new Menu(connectionString);
                 

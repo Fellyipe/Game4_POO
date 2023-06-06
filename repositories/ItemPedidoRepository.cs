@@ -13,6 +13,29 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
         _connectionString = connectionString;
     }
 
+
+    public ItemPedido GetById(int id)
+    {
+        return GetById<ItemPedido>(id);
+    }
+    public void Create(ItemPedido itemPedido)
+    {
+        Create<ItemPedido>(itemPedido);
+    }
+    public void Update(ItemPedido itemPedido)
+    {
+        Update<ItemPedido>(itemPedido);
+    }
+    public void Delete(int id)
+    {
+        Delete<ItemPedido>(id);
+    }
+    public IEnumerable<ItemPedido> ListAll()
+    {
+        return ListAll<ItemPedido>();
+    }
+
+/*
     public ItemPedido? GetById(int id)
     {
         using (var connection = new MySqlConnection(_connectionString))
@@ -38,7 +61,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
                         var pedidoRepository = new PedidoRepository(_connectionString);
                         var pedido = pedidoRepository.GetById(pedidoId);
 
-                        return new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);
+                        return new ItemPedido{Id = itemPedidoId, Produto = produto, Quantidade = quantidade, PrecoUnitario = precoUnitario, Pedido = pedido};
                     }
                 }
             }
@@ -99,7 +122,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
             }
         }
     }
-
+*/
     public List<ItemPedido> GetByPedidoId(int pedidoId)
     {
         var itensPedido = new List<ItemPedido>();
@@ -126,7 +149,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
                         var pedidoRepository = new PedidoRepository("server=localhost;database=poo_game4;user=root;password=;");
                         var pedido = pedidoRepository.GetById(pedidoId);
 
-                        var itemPedido = new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);
+                        var itemPedido = new ItemPedido{Id = itemPedidoId, Produto = produto, Quantidade = quantidade, PrecoUnitario = precoUnitario, Pedido = pedido};
 
                         itensPedido.Add(itemPedido);
                     }
@@ -136,7 +159,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
 
         return itensPedido;
     }
-
+/*
     public IEnumerable<ItemPedido> ListAll()
     {
         var itemPedidos = new List<ItemPedido>();
@@ -163,7 +186,7 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
                         var pedidoRepository = new PedidoRepository(_connectionString);
                         var pedido = pedidoRepository.GetById(pedidoId);
 
-                        var itemPedido = new ItemPedido(itemPedidoId, produto, quantidade, precoUnitario, pedido);
+                        var itemPedido = new ItemPedido{Id = itemPedidoId, Produto = produto, Quantidade = quantidade, PrecoUnitario = precoUnitario, Pedido = pedido};
                         
                         itemPedidos.Add(itemPedido);
                     }
@@ -173,6 +196,6 @@ public class ItemPedidoRepository : Repository<ItemPedido>, IItemPedidoRepositor
 
         return itemPedidos;
     }
-
+*/
 
 }

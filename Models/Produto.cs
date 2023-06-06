@@ -36,7 +36,7 @@ namespace Gamificacao4
             set { _quantidadeEmEstoque = value;}
         }
 
-        public Produto(int id, string nome, string descricao, decimal preco, int quantidadeEmEstoque)
+        /*public Produto(int id, string nome, string descricao, decimal preco, int quantidadeEmEstoque)
         {
             if (string.IsNullOrWhiteSpace(nome))
             {
@@ -59,6 +59,6 @@ namespace Gamificacao4
             _descricao = descricao;
             _preco = preco;
             _quantidadeEmEstoque = quantidadeEmEstoque;
-        }
+        }*/
     }
 }

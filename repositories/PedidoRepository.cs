@@ -12,7 +12,28 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
     {
         _connectionString = connectionString;
     }
+    public Pedido? GetById(int id)
+    {
+        return GetById<Pedido>(id);
+    }
+    public void Create(Pedido pedido)
+    {
+        Create<Pedido>(pedido);
+    }
+    public void Update(Pedido pedido)
+    {
+        Update<Pedido>(pedido);
+    }
+    public void Delete(int id)
+    {
+        Delete<Pedido>(id);
+    }
+    public IEnumerable<Pedido> ListAll()
+    {
+        return ListAll<Pedido>();
+    }
 
+    /*
     public Pedido? GetById(int id)
     {
         var connection = new MySqlConnection(_connectionString);
@@ -38,7 +59,7 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
         return null;
     }
 
-    public void Create(Pedido pedido)
+  /*  public void Create(Pedido pedido)
     {
         using (var connection = new MySqlConnection(_connectionString))
         {
@@ -57,8 +78,8 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
             }
         }
     }
-
-    public void Update(Pedido pedido)
+*/
+    /*public void Update(Pedido pedido)
     {
         using (var connection = new MySqlConnection(_connectionString))
         {
@@ -89,8 +110,8 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
             }
         }
     }
-
-    public List<Pedido> GetByCliente(Cliente cliente)
+    */
+    public List<Pedido> GetByCliente(string cliente)
     {
         var pedidos = new List<Pedido>();
         using (var connection = new MySqlConnection(_connectionString))
@@ -99,16 +120,16 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
             var query = "SELECT * FROM tb_pedido WHERE Cliente = @Cliente";
             using (var command = new MySqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@Cliente", cliente.Nome);
+                command.Parameters.AddWithValue("@Cliente", cliente);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         var pedidoId = reader.GetInt32(0);
-                        var Data = reader.GetDateTime(1);
+                        var data = reader.GetDateTime(1);
                         var status = reader.GetString(3);
 
-                        pedidos.Add(new Pedido(pedidoId, Data, cliente, status));
+                        pedidos.Add(new Pedido{Id = pedidoId, Data = data, Cliente = cliente, Status = status});
                     }
                 }
             }
@@ -131,10 +152,10 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
                     while (reader.Read())
                     {
                         var pedidoId = reader.GetInt32(0);
-                        var Data = reader.GetDateTime(1);
-                        var cliente = new Cliente(reader.GetString(2));
+                        var data = reader.GetDateTime(1);
+                        var cliente = reader.GetString(2);
 
-                        pedidos.Add(new Pedido(pedidoId, Data, cliente, status));
+                        pedidos.Add(new Pedido{Id = pedidoId, Data = data, Cliente = cliente, Status = status});
                     }
                 }
             }
@@ -157,17 +178,17 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
                     while (reader.Read())
                     {
                         var pedidoId = reader.GetInt32(0);
-                        var cliente = new Cliente(reader.GetString(2));
+                        var cliente = reader.GetString(2);
                         var status = reader.GetString(3);
 
-                        pedidos.Add(new Pedido(pedidoId, data, cliente, status));
+                        pedidos.Add(new Pedido{Id = pedidoId, Data = data, Cliente = cliente, Status = status});
                     }
                 }
             }
         }
         return pedidos;
     }
-    
+  /*  
     public IEnumerable<Pedido> ListAll()
     {
         var pedidos = new List<Pedido>();
@@ -183,11 +204,11 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
                     while (reader.Read())
                     {
                         var pedidoId = reader.GetInt32(0);
-                        var Data = reader.GetDateTime(1);
+                        var data = reader.GetDateTime(1);
                         var cliente = new Cliente(reader.GetString(2));
                         var status = reader.GetString(3);
 
-                        var pedido = new Pedido(pedidoId, Data, cliente, status);
+                        var pedido = new Pedido{Id = pedidoId, Data = data, Cliente = cliente, Status = status};
                         pedidos.Add(pedido);
                     }
                 }
@@ -196,7 +217,7 @@ public class PedidoRepository : Repository<Pedido>, IPedidoRepository
 
         return pedidos;
     }
-
+    */
 
 
 }

@@ -13,6 +13,27 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
         _connectionString = connectionString;
     }
 
+    public Produto? GetById(int id)
+    {
+        return GetById<Produto>(id);
+    }
+    public void Create(Produto produto)
+    {
+        Create<Produto>(produto);
+    }
+    public void Update(Produto produto)
+    {
+        Update<Produto>(produto);
+    }
+    public void Delete(int id)
+    {
+        Delete<Produto>(id);
+    }
+    public IEnumerable<Produto> ListAll()
+    {
+        return ListAll<Produto>();
+    }
+    /*
     public void Create(Produto produto)
     {
         using (var connection = new MySqlConnection(_connectionString))
@@ -89,7 +110,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
                         var preco = reader.GetDecimal(3);
                         var quantidadeEmEstoque = reader.GetInt32(4);
 
-                        return new Produto(produtoId, nome, descricao, preco, quantidadeEmEstoque);
+                        return new Produto{Id = produtoId, Nome = nome, Descricao = descricao, Preco = preco, QuantidadeEmEstoque = quantidadeEmEstoque};
                     }
                     else
                     {
@@ -120,7 +141,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
                         var preco = reader.GetDecimal(3);
                         var quantidadeEmEstoque = reader.GetInt32(4);
 
-                        var produto = new Produto(produtoId, nome, descricao, preco, quantidadeEmEstoque);
+                        var produto = new Produto{Id = produtoId, Nome = nome, Descricao = descricao, Preco = preco, QuantidadeEmEstoque = quantidadeEmEstoque};
                         produtos.Add(produto);
                     }
                 }
@@ -129,4 +150,5 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 
         return produtos;
     }
+    */
 }

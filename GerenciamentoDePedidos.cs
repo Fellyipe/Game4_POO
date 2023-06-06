@@ -14,9 +14,9 @@ namespace Gamificacao4
             this.itemPedidoRepository = itemPedidoRepository;
         }
 
-        public Pedido CriarPedido(DateTime Data, Cliente cliente, string status)
+        public Pedido CriarPedido(DateTime data, string cliente, string status)
         {
-            var pedido = new Pedido(0, Data, cliente, status);
+            var pedido = new Pedido{Id = 0, Data = data, Cliente = cliente, Status = status};
             pedidoRepository.Create(pedido);
             Console.WriteLine("Id do pedido: " + pedido.Id);
             return pedido;
@@ -25,13 +25,13 @@ namespace Gamificacao4
         public void AdicionarItemPedido(int pedidoId, int produtoId, int quantidade, decimal precoUnitario)
         {
             var pedido = pedidoRepository.GetById(pedidoId);
-            Console.WriteLine("pedidoClienteNome: " + pedido?.Cliente?.Nome + "; produtoId: " + produtoId);
+            Console.WriteLine("pedidoClienteNome: " + pedido?.Cliente + "; produtoId: " + produtoId);
             var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game4;user=root;password=;");
             var produto = produtoRepository.GetById(produtoId);
 
             if (pedido != null && produto != null)
             {
-                var itemPedido = new ItemPedido(0, produto, quantidade, precoUnitario, pedido);
+                var itemPedido = new ItemPedido{Id = 0, Produto = produto, Quantidade = quantidade, PrecoUnitario = precoUnitario, Pedido = pedido};
                 itemPedidoRepository.Create(itemPedido);
             }
         }
@@ -55,7 +55,7 @@ namespace Gamificacao4
             }
         }
 
-        public List<Pedido> ListarPedidosPorCliente(Cliente cliente)
+        public List<Pedido> ListarPedidosPorCliente(string cliente)
         {
             return pedidoRepository.GetByCliente(cliente);
         }

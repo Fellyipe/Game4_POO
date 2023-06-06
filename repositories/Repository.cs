@@ -18,14 +18,14 @@ public class Repository<T> : IRepository<T>
         _connectionString = connectionString;
     }
 
-    public void Create(T entity)
+    public void Create<T>(T entity)
     {
         string tableName = typeof(T).Name.ToLower();
         var properties = typeof(T).GetProperties().Where(p => !p.Name.Equals("Id"));
         string columns = string.Join(", ", properties.Select(p => p.Name));
         string values = string.Join(", ", properties.Select(p => $"'{p.GetValue(entity)}'"));
 
-        string query = $"INSERT INTO {tableName} ({columns}) VALUES ({values});";
+        string query = $"INSERT INTO tb_{tableName} ({columns}) VALUES ({values});";
 
         using (var connection = new MySqlConnection(_connectionString))
         {
@@ -74,7 +74,7 @@ public class Repository<T> : IRepository<T>
             }
                 */
 
-    public void Update(T entity)
+    public void Update<T>(T entity)
     {
         string tableName = typeof(T).Name.ToLower();
 
@@ -94,7 +94,7 @@ public class Repository<T> : IRepository<T>
         }
     }
 
-    public void Delete(int id)
+    public void Delete<T>(int id)
     {
         string tableName = typeof(T).Name.ToLower();
 
@@ -111,7 +111,7 @@ public class Repository<T> : IRepository<T>
         }
     }
 
-    public T GetById(int id)
+    public T GetById<T>(int id)
     {
         string tableName = typeof(T).Name.ToLower();
 
@@ -144,7 +144,7 @@ public class Repository<T> : IRepository<T>
         return default(T);
     }
 
-    public IEnumerable<T> ListAll()
+    public IEnumerable<T> ListAll<T>()
     {
         string tableName = typeof(T).Name.ToLower();
 
