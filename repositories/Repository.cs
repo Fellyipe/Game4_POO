@@ -8,6 +8,8 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using Gamificacao4;
 using Gamificacao4.Interfaces;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 public class Repository<T> : IRepository<T>
 {
@@ -20,10 +22,11 @@ public class Repository<T> : IRepository<T>
 
     public void Create<T>(T entity)
     {
-        string tableName = typeof(T).Name.ToLower();
+        /*string tableName = typeof(T).Name.ToLower();
         var properties = typeof(T).GetProperties().Where(p => !p.Name.Equals("Id"));
         string columns = string.Join(", ", properties.Select(p => p.Name));
         string values = string.Join(", ", properties.Select(p => $"'{p.GetValue(entity)}'"));
+        Console.WriteLine(properties);
 
         string query = $"INSERT INTO tb_{tableName} ({columns}) VALUES ({values});";
 
@@ -35,6 +38,51 @@ public class Repository<T> : IRepository<T>
             {
                 command.ExecuteNonQuery();
             }
+        }*/
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            var queryBuilder = new StringBuilder($"INSERT INTO tb_{typeof(T).Name} (");
+            var valuesBuilder = new StringBuilder("VALUES (");
+            var parameters = new List<MySqlParameter>();
+
+            var properties = typeof(T).GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (property.Name == "Id" || property.GetValue(entity) == null)
+                    continue;
+
+                string columnName = property.Name;
+                object value = property.GetValue(entity);
+                if (columnName == "Produto")
+                {
+                    columnName = "tb_produtoId";
+                    value = ((Gamificacao4.Produto)value).Id;
+                }
+                if (columnName == "Pedido")
+                {
+                    columnName = "tb_pedidoId";
+                    value = ((Gamificacao4.Pedido)value).Id;
+                }
+                queryBuilder.Append($"{columnName}, ");
+                valuesBuilder.Append($"@{columnName}, ");
+
+                var parameter = new MySqlParameter($"@{columnName}", value);
+                parameters.Add(parameter);
+            }
+
+            queryBuilder.Remove(queryBuilder.Length - 2, 2);
+            valuesBuilder.Remove(valuesBuilder.Length - 2, 2);
+
+            queryBuilder.Append(") ");
+            valuesBuilder.Append(")");
+
+            var query = queryBuilder.ToString() + valuesBuilder.ToString();
+            var command = new MySqlCommand(query, connection);
+            command.Parameters.AddRange(parameters.ToArray());
+            Console.WriteLine(query);
+            command.ExecuteNonQuery();
         }
     }   
         /*using (var connection = new MySqlConnection(_connectionString))
@@ -76,7 +124,7 @@ public class Repository<T> : IRepository<T>
 
     public void Update<T>(T entity)
     {
-        string tableName = typeof(T).Name.ToLower();
+        /*string tableName = typeof(T).Name.ToLower();
 
         var properties = typeof(T).GetProperties().Where(p => !p.Name.Equals("Id"));
         var id = typeof(T).GetProperty("Id").GetValue(entity);
@@ -91,6 +139,53 @@ public class Repository<T> : IRepository<T>
             {
                 command.ExecuteNonQuery();
             }
+        }*/
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            string tableName = typeof(T).Name.ToLower();
+            var queryBuilder = new StringBuilder($"UPDATE tb_{tableName} SET ");
+            var parameters = new List<MySqlParameter>();
+
+            var properties = typeof(T).GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (property.Name == "Id" || property.GetValue(entity) == null)
+                    continue;
+
+                string columnName = property.Name;
+                object value = property.GetValue(entity);
+                /*if (columnName == "Produto")
+                {
+                    columnName = "tb_produtoId";
+                    value = ((Gamificacao4.Produto)value).Id;
+                    Console.WriteLine("Teste");
+                }
+                if (columnName == "Pedido")
+                {
+                    columnName = "tb_pedidoId";
+                    value = ((Gamificacao4.Pedido)value).Id;
+                    Console.WriteLine("Teste2");
+                }*/
+                Console.WriteLine(columnName + "; " + value);
+                queryBuilder.Append($"{columnName} = @{columnName}, ");
+
+                var parameter = new MySqlParameter($"@{columnName}", value);
+                parameters.Add(parameter);
+            }
+
+            queryBuilder.Remove(queryBuilder.Length - 2, 2);
+            queryBuilder.Append(" WHERE Id = @Id;");
+
+            var query = queryBuilder.ToString();
+
+            var command = new MySqlCommand(query, connection);
+            command.Parameters.AddRange(parameters.ToArray());
+            command.Parameters.AddWithValue("@Id", properties.First(p => p.Name == "Id").GetValue(entity));
+            Console.WriteLine(query);
+            Console.WriteLine(command);
+            command.ExecuteNonQuery();
         }
     }
 
@@ -113,7 +208,7 @@ public class Repository<T> : IRepository<T>
 
     public T GetById<T>(int id)
     {
-        string tableName = typeof(T).Name.ToLower();
+        /*string tableName = typeof(T).Name.ToLower();
 
         string query = $"SELECT * FROM tb_{tableName} WHERE Id = {id};";
 
@@ -134,6 +229,7 @@ public class Repository<T> : IRepository<T>
                             if (!reader.IsDBNull(reader.GetOrdinal(property.Name)))
                             {
                                 property.SetValue(entity, reader[property.Name]);
+                                Console.WriteLine(property);
                             }
                         }
                         return entity;
@@ -141,12 +237,61 @@ public class Repository<T> : IRepository<T>
                 }
             }    
         }
-        return default(T);
+        return default(T);*/
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            string tableName = typeof(T).Name.ToLower();
+            string query = $"SELECT * FROM tb_{tableName} WHERE Id = {id};";
+            var command = new MySqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Id", id);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    var entity = Activator.CreateInstance<T>();
+                    var properties = typeof(T).GetProperties();
+
+                    foreach (var property in properties)
+                    {
+                        if (property.Name == "Id")
+                        {
+                            property.SetValue(entity, id);
+                            continue;
+                        }
+                        if (property.Name == "Produto")
+                        {
+                            var produtoId = reader.GetInt32("tb_produtoId");
+                            var produto = GetById<Produto>(produtoId);
+                            property.SetValue(entity, produto);
+                            continue;
+                        }
+                        if (property.Name == "Pedido")
+                        {
+                            var pedidoId = reader.GetInt32("tb_pedidoId");
+                            var pedido = GetById<Pedido>(pedidoId);
+                            property.SetValue(entity, pedido);
+                            continue;
+                        }
+
+                        var value = reader[property.Name];
+                        if (value != DBNull.Value)
+                        {
+                            property.SetValue(entity, value);
+                        }
+                    }
+
+                    return entity;
+                }
+            }
+        }
+        return default;
     }
 
     public IEnumerable<T> ListAll<T>()
     {
-        string tableName = typeof(T).Name.ToLower();
+        /*string tableName = typeof(T).Name.ToLower();
 
         string query = $"SELECT * FROM tb_{tableName};";
 
@@ -177,6 +322,52 @@ public class Repository<T> : IRepository<T>
                     return entities;
                 }
             }
+        }*/
+        using (var connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            string tableName = typeof(T).Name.ToLower();
+            string query = $"SELECT * FROM tb_{tableName};";
+            var command = new MySqlCommand(query, connection);
+
+            var entities = new List<T>();
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var entity = Activator.CreateInstance<T>();
+                    var properties = typeof(T).GetProperties();
+
+                    foreach (var property in properties)
+                    {
+                        if (property.Name == "Produto")
+                        {
+                            var id = reader.GetInt32("tb_produtoId");
+                            var produto = GetById<Produto>(id);
+                            property.SetValue(entity, produto);
+                            continue;
+                        }
+                        if (property.Name == "Pedido")
+                        {
+                            var id = reader.GetInt32("tb_pedidoId");
+                            var pedido = GetById<Pedido>(id);
+                            property.SetValue(entity, pedido);
+                            continue;
+                        }
+
+                        var value = reader[property.Name];
+                        if (value != DBNull.Value)
+                        {
+                            property.SetValue(entity, value);
+                        }
+                    }
+
+                    entities.Add(entity);
+                }
+            }
+
+            return entities;
         }
     }
 

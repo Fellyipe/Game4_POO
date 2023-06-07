@@ -61,6 +61,7 @@ namespace Gamificacao4
                 
                 bool sair = false;
 
+                Console.Clear();
                 while (!sair)
                 {
                     Console.WriteLine("====== MENU ======");

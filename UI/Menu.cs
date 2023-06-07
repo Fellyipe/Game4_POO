@@ -24,6 +24,7 @@ namespace Gamificacao4
             gerenciamentoDePedidos.CriarPedido(data, cliente, status);
 
             Console.WriteLine("Pedido criado com sucesso!");
+            
             Console.WriteLine("Aperte qualquer tecla para continuar");
             Console.ReadKey();
         }
@@ -368,6 +369,7 @@ namespace Gamificacao4
             Console.WriteLine("===== CRIAR NOVO PEDIDO =====");
             Console.Write("Data do pedido: ");
             DateTime data = DateTime.Parse(Console.ReadLine());
+            
             Console.Write("Cliente: ");
             var cliente = Console.ReadLine();
             Console.Write("Status do pedido: ");
@@ -388,7 +390,7 @@ namespace Gamificacao4
 
             if (pedido != null)
             {
-                Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy") + "; Cliente: " + pedido?.Cliente + "; Status: " + pedido?.Status);
+                Console.WriteLine("ID: " + pedido.Id + "; Data: " + pedido.Data.ToString("dd/MM/yyyy:HH/mm/ss") + "; Cliente: " + pedido?.Cliente + "; Status: " + pedido?.Status);
             }
             else
             {

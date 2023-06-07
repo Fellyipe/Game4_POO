@@ -28,6 +28,7 @@ namespace Gamificacao4
             Console.WriteLine("pedidoClienteNome: " + pedido?.Cliente + "; produtoId: " + produtoId);
             var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game4;user=root;password=;");
             var produto = produtoRepository.GetById(produtoId);
+                Console.WriteLine("Teste");
 
             if (pedido != null && produto != null)
             {
@@ -48,11 +49,11 @@ namespace Gamificacao4
 
         public void RemoverPedido(int pedidoId)
         {
-            var pedido = pedidoRepository.GetById(pedidoId);
+            /*var pedido = pedidoRepository.GetById(pedidoId);
             if (pedido != null)
-            {
+            {*/
                 pedidoRepository.Delete(pedidoId);
-            }
+            //}
         }
 
         public List<Pedido> ListarPedidosPorCliente(string cliente)
