@@ -83,6 +83,8 @@ public class Repository<T> : IRepository<T>
             command.Parameters.AddRange(parameters.ToArray());
             Console.WriteLine(query);
             command.ExecuteNonQuery();
+            long id = command.LastInsertedId;
+            Console.WriteLine("Id do objeto criado: " + id);
         }
     }   
         /*using (var connection = new MySqlConnection(_connectionString))
@@ -156,7 +158,7 @@ public class Repository<T> : IRepository<T>
 
                 string columnName = property.Name;
                 object value = property.GetValue(entity);
-                /*if (columnName == "Produto")
+                if (columnName == "Produto")
                 {
                     columnName = "tb_produtoId";
                     value = ((Gamificacao4.Produto)value).Id;
@@ -167,7 +169,7 @@ public class Repository<T> : IRepository<T>
                     columnName = "tb_pedidoId";
                     value = ((Gamificacao4.Pedido)value).Id;
                     Console.WriteLine("Teste2");
-                }*/
+                }
                 Console.WriteLine(columnName + "; " + value);
                 queryBuilder.Append($"{columnName} = @{columnName}, ");
 
