@@ -61,9 +61,9 @@ namespace Gamificacao4
                 
                 bool sair = false;
 
-                Console.Clear();
                 while (!sair)
                 {
+                    Console.Clear();
                     Console.WriteLine("====== MENU ======");
                     Console.WriteLine("1. Criar um novo pedido");
                     Console.WriteLine("2. Adicionar itens a um pedido");
@@ -77,41 +77,51 @@ namespace Gamificacao4
                     Console.WriteLine("==================");
                     Console.Write("Escolha uma opção: ");
 
-                    string opcao = Console.ReadLine();
+                    string ?opcao = Console.ReadLine();
                     Console.WriteLine();
 
                     switch (opcao)
                     {
                         case "1":
+                            Console.Clear();
                             menu.CriarNovoPedido(gerenciamentoDePedidos);
                             break;
                         case "2":
+                            Console.Clear();
                             menu.AdicionarItensAoPedido(gerenciamentoDePedidos);
                             break;
                         case "3":
+                            Console.Clear();
                             menu.AtualizarStatusPedido(gerenciamentoDePedidos);
                             break;
                         case "4":
+                            Console.Clear();
                             menu.RemoverPedido(gerenciamentoDePedidos);
                             break;
                         case "5":
+                            Console.Clear();
                             menu.ListarPedidos(gerenciamentoDePedidos);
                             break;
                         case "6":
+                            Console.Clear();
                             menu.CalcularValorTotalPedido(gerenciamentoDePedidos);
                             break;
                         case "7":
+                            Console.Clear();
                             menu.AcessoAdministrador(gerenciamentoDePedidos, produtoRepository, pedidoRepository, itemPedidoRepository);
                             break;
                         case "8":
+                            Console.Clear();
                             menu.ListarTodosProdutos(produtoRepository);
                             Console.WriteLine("Aperte qualquer tecla para continuar");
                             Console.ReadKey();
                             break;
                         case "0":
+                            Console.Clear();
                             sair = true;
                             break;
                         default:
+                            Console.Clear();
                             Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
                             Console.WriteLine("Aperte qualquer tecla para continuar");
                             Console.ReadKey();

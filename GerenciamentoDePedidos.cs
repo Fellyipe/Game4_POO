@@ -18,17 +18,14 @@ namespace Gamificacao4
         {
             var pedido = new Pedido{Id = 0, Data = data, Cliente = cliente, Status = status};
             pedidoRepository.Create(pedido);
-            Console.WriteLine("Id do pedido: " + pedido.Id);
             return pedido;
         }
 
         public void AdicionarItemPedido(int pedidoId, int produtoId, int quantidade, decimal precoUnitario)
         {
             var pedido = pedidoRepository.GetById(pedidoId);
-            Console.WriteLine("pedidoClienteNome: " + pedido?.Cliente + "; produtoId: " + produtoId);
             var produtoRepository = new ProdutoRepository("server=localhost;database=poo_game4;user=root;password=;");
             var produto = produtoRepository.GetById(produtoId);
-                Console.WriteLine("Teste");
 
             if (pedido != null && produto != null)
             {
